@@ -17,24 +17,28 @@ const menuItems: MenuItem[] = [
           route: "/profile",
         },
         {
-          title: "Projects",
-          route: "/projects",
+          title: "Dashboard",
+          route: "/dashboard",
         },
         {
           title: "Settings",
           route: "/settings",
         },
         {
-            title: "Log Out",
-            route: "/logout",
-          },
+          title: "Log In",
+          route: "/login",
+        },
+        {
+          title: "Register",
+          route: "/register",
+        },
       ],
     },
 ];
 
 export default function Header() {
   return (
-      <div className="flex gap-8 items-center h-96 rounded-l-lg text-black bg-zinc-400">
+      <div className="flex gap-8 items-center h-3/5 rounded-l-3xl text-white bg-zinc-500">
         {menuItems.map((item) => {
           return item.hasOwnProperty("children") ? (
             <Dropdown item={item} />

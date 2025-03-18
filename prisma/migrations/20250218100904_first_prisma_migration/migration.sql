@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Post" ADD COLUMN     "gay" BOOLEAN NOT NULL DEFAULT true;
