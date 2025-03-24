@@ -9,11 +9,17 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -54,8 +60,18 @@ export default function LoginPage() {
           <h2 className="text-xl font-bold my-4 text-center">Login</h2>
           {error && <p className="text-red-500 my-2">{error}</p>}
           <input name="email" type="email" placeholder="Email" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.email} />
-          <input name="password" type="password" placeholder="Password" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.password} />
-          <p className='text-sm leading-10'>Don't have an account? <a href='/register' className='text-blue-500'>Register now!</a></p>
+          <div className="relative mb-2">
+          <input
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
+            className="p-2 border rounded w-full"
+            onChange={handleChange}
+          />
+          <button type="button" className="absolute right-2 top-2 text-gray-500" onClick={togglePasswordVisibility}>
+            {showPassword ? '👁️' : '🔒'}
+          </button>
+        </div>          <p className='text-sm leading-10'>Don't have an account? <a href='/register' className='text-blue-500'>Register now!</a></p>
           <button type="submit" className="w-full bg-zinc-500 text-white my-2 p-2 rounded" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
           </button>

@@ -5,12 +5,21 @@ import { useState } from 'react';
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ nickname: '', email: '', password: '', passwordConfirm: '' });
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const togglePasswordVisibility1 = () => {
+    setShowPassword1((prev) => !prev);
+  };
+  const togglePasswordVisibility2 = () => {
+    setShowPassword2((prev) => !prev);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -66,9 +75,30 @@ export default function RegisterPage() {
           {success && <p className="text-green-500 my-2">{success}</p>}
           <input name="nickname" placeholder="Nickname" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.nickname} />
           <input name="email" type="email" placeholder="Email" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.email} />
-          <input name="password" type="password" placeholder="Password" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.password} />
-          <input name="passwordConfirm" type="password" placeholder="Password Again" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.passwordConfirm} />
-          <p className='text-sm leading-10'>Already have an account? <a href='/login' className='text-blue-500'>Log in here!</a></p>
+          <div className="relative mb-2">
+            <input
+              name="password"
+              type={showPassword1 ? 'text' : 'password'}
+              placeholder="Password"
+              className="p-2 border rounded w-full"
+              onChange={handleChange}
+            />
+            <button type="button" className="absolute right-2 top-2 text-gray-500" onClick={togglePasswordVisibility1}>
+              {showPassword1 ? '👁️' : '🔒'}
+            </button>
+          </div>
+          <div className="relative mb-2">
+            <input
+              name="passwordConfirm"
+              type={showPassword2 ? 'text' : 'password'}
+              placeholder="Confirm Password"
+              className="p-2 border rounded w-full"
+              onChange={handleChange}
+            />
+            <button type="button" className="absolute right-2 top-2 text-gray-500" onClick={togglePasswordVisibility2}>
+              {showPassword2 ? '👁️' : '🔒'}
+            </button>
+        </div>          <p className='text-sm leading-10'>Already have an account? <a href='/login' className='text-blue-500'>Log in here!</a></p>
           <button type="submit" className="w-full bg-zinc-500 text-white my-2 p-2 rounded" disabled={loading}>
             {loading ? 'Registering...' : 'Register'}
           </button>

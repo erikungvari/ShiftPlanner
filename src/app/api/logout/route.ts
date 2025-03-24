@@ -1,8 +1,15 @@
-import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
-export async function GET() {
-  (await cookies()).set('auth_token', '', { expires: new Date(0) });
+export async function POST() {
+  const response = NextResponse.json({ message: "Logged out successfully." });
 
-  return NextResponse.json({ message: 'Logged out successfully.' });
+  response.cookies.set({
+    name: "auth_token",
+    value: "",
+    maxAge: 0,
+    path: "/",
+  });
+
+  return response;
 }
