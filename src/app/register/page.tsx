@@ -4,7 +4,7 @@ import Menu from '@/components/MenuItems';
 import { useState } from 'react';
 
 export default function RegisterPage() {
-  const [form, setForm] = useState({ nickname: '', email: '', password: '', passwordConfirm: '' });
+  const [form, setForm] = useState({name: '', email: '', password: '', passwordConfirm: '' });
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ export default function RegisterPage() {
     setError('');
     setSuccess('');
 
-    if (!form.nickname || !form.email || !form.password || !form.passwordConfirm) {
+    if (!form.name || !form.email || !form.password || !form.passwordConfirm) {
       setError('All fields are required.');
       return;
     }
@@ -44,7 +44,7 @@ export default function RegisterPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          nickname: form.nickname,
+          name: form.name,
           email: form.email,
           password: form.password,
         }),
@@ -57,7 +57,7 @@ export default function RegisterPage() {
       }
 
       setSuccess('Registration successful!');
-      setForm({ nickname: '', email: '', password: '', passwordConfirm: '' });
+      setForm({ name: '', email: '', password: '', passwordConfirm: '' });
     } catch (error: any) {
       setError(error.message);
     } finally {
@@ -69,11 +69,11 @@ export default function RegisterPage() {
     <div>
       <Menu/>
       <div className="fixed left-1/3 top-0 flex items-center justify-center w-4/12 min-h-screen bg-gray-100">
-        <form className="bg-white p-6 rounded shadow-md w-80" onSubmit={handleSubmit}>
+        <form className="bg-white p-6 rounded-xl shadow-lg w-80" onSubmit={handleSubmit}>
           <h2 className="text-xl font-bold mb-4 text-center">Register</h2>
           {error && <p className="text-red-500 my-2">{error}</p>}
           {success && <p className="text-green-500 my-2">{success}</p>}
-          <input name="nickname" placeholder="Nickname" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.nickname} />
+          <input name="name" placeholder="Name" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.name} />
           <input name="email" type="email" placeholder="Email" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.email} />
           <div className="relative mb-2">
             <input

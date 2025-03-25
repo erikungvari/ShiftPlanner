@@ -56,7 +56,7 @@ export default function LoginPage() {
     <div>
       <Menu/>
       <div className="fixed left-1/3 top-0 flex items-center justify-center w-4/12 min-h-screen bg-gray-100">
-        <form className="bg-white p-6 rounded shadow-md w-80" onSubmit={handleSubmit}>
+        <form className="bg-white p-6 rounded-xl shadow-lg w-80" onSubmit={handleSubmit}>
           <h2 className="text-xl font-bold my-4 text-center">Login</h2>
           {error && <p className="text-red-500 my-2">{error}</p>}
           <input name="email" type="email" placeholder="Email" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.email} />
