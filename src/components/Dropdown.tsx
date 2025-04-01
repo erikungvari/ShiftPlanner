@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { MenuItem } from './Header';
 
 interface Props {
@@ -12,8 +11,6 @@ interface Props {
 
 export default function Dropdown({ item, isOpen }: Props) {
     const menuItems = item?.children || [];
-    const router = useRouter();
-
     return (
         <div 
             className={`relative flex flex-col h-full bg-zinc-200 transition-transform duration-200 ${

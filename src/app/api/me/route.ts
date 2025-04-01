@@ -18,6 +18,7 @@ export async function GET() {
     
     return NextResponse.json({ isLoggedIn: true, user: decoded });
   } catch (error) {
+    console.error('LoggedIn verification failed', error)
     return NextResponse.json({ isLoggedIn: false }, { status: 401 });
   }
 }

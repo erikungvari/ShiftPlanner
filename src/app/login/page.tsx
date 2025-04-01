@@ -45,8 +45,8 @@ export default function LoginPage() {
       }
 
       router.push('/dashboard'); // Redirect after login
-    } catch (error:any) {
-      setError(error.message);
+    } catch (error) {
+      setError('Unknown error');
     } finally {
       setLoading(false);
     }
