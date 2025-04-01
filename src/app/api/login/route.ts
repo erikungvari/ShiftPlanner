@@ -14,18 +14,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'All fields are required.' }, { status: 400 });
     }
 
-    // Find user in the database
     const user = await prisma.user.findUnique({ where: { email } });
 
-    // Validate user and password
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return NextResponse.json({ message: 'Invalid email or password.' }, { status: 401 });
     }
 
-    // Generate JWT Token
     const token = jwt.sign({ id: user.id, email: user.email }, SECRET, { expiresIn: '7d' });
 
-    // ✅ Correct way to set cookie in Next.js API
     const response = NextResponse.json({ message: 'Login successful.' }, { status: 200 });
 
     response.cookies.set({
@@ -33,7 +29,7 @@ export async function POST(req: Request) {
       value: token,
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 7 * 24 * 60 * 60, // 7 days
+      maxAge: 7 * 24 * 60 * 60,
       path: '/',
     });
 

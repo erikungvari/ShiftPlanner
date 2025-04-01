@@ -1,7 +1,10 @@
-import Menu from "@/components/MenuItems";
+'use client'
+
+import { useRouter } from 'next/navigation';
+
 
 export default function Home() {
-  return (
-    <Menu/>
-  );
+  const router = useRouter();
+  router.push("/login");
+  return;
 }

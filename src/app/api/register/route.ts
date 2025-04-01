@@ -12,15 +12,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'All fields are required.' }, { status: 400 });
     }
 
-    // Hash password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Store user in the database
     const user = await prisma.user.create({
       data: {
         name,
         email,
-        password: hashedPassword, // Store hashed password
+        password: hashedPassword,
       },
     });
 
