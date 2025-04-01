@@ -58,8 +58,9 @@ export default function RegisterPage() {
 
       setSuccess('Registration successful!');
       setForm({ name: '', email: '', password: '', passwordConfirm: '' });
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error) {
+      console.error('Register error:', error);
+      setError('Register failed');
     } finally {
       setLoading(false);
     }
