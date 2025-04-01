@@ -15,7 +15,7 @@ model User {
   bio       String?
   password  String
   createdAt DateTime @default(now())
-  hours Hour[]
+  hours     Hour[]
 }
 
 model Hour {
