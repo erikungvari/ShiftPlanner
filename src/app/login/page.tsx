@@ -45,7 +45,7 @@ export default function LoginPage() {
       }
 
       router.push('/dashboard'); // Redirect after login
-    } catch (error: any) {
+    } catch (error:any) {
       setError(error.message);
     } finally {
       setLoading(false);

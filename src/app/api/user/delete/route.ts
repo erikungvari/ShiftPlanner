@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 const SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
-export async function DELETE(req: Request) {
+export async function DELETE() {
   try {
     // Get auth token from cookies
     const token = (await cookies()).get('auth_token')?.value;
