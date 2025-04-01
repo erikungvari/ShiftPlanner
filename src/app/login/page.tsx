@@ -47,7 +47,7 @@ export default function LoginPage() {
       router.push('/dashboard'); // Redirect after login
     } catch (error) {
       console.error('Login error:', error);
-      setError('Login failed');
+      setError('Invalid e-mail or password');
     } finally {
       setLoading(false);
     }
@@ -73,7 +73,7 @@ export default function LoginPage() {
               {showPassword ? '👁️' : '🔒'}
             </button>
           </div>          
-          <p className='text-sm leading-10'>Don't have an account? <a href='/register' className='text-blue-500'>Register now!</a></p>
+          <p className='text-sm leading-10'>Don&apos;t have an account? <a href='/register' className='text-blue-500'>Register now!</a></p>
           <button type="submit" className="w-full bg-zinc-500 text-white my-2 p-2 rounded" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
           </button>

@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { MenuItem } from './Header';
+import Image from 'next/image';
 
 interface Props {
     item: MenuItem;
@@ -24,7 +25,13 @@ export default function Dropdown({ item, isOpen }: Props) {
                         className="flex items-center w-full hover:text-gray-500 p-2"
                         href={menuItem?.route || ''}
                     >
-                        <img src={menuItem.icon} className="h-8 w-8 mr-4" alt={menuItem.title} />
+                        <Image
+                             src= {menuItem.icon}
+                             width={32}
+                             height={32}
+                             alt= {menuItem.title}
+                             className='mr-4'
+                        />
                         <span>{menuItem.title}</span>
                     </Link>
                 ))}

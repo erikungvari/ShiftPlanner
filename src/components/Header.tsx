@@ -5,8 +5,8 @@ import Dropdown from "./Dropdown";
 import { useRouter } from "next/navigation";
 
 export interface MenuItem {
-  title?: string;
-  icon?: string;
+  title: string;
+  icon: string;
   route?: string;
   children?: MenuItem[];
 }
@@ -70,6 +70,8 @@ export default function Header() {
             icon: "https://icons.veryicon.com/png/o/commerce-shopping/three-shopping-mall/business-registration.png",
           },
         ],
+      icon: "",
+      title: ""
     },
   ];
 
