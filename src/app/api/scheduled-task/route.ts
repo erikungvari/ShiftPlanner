@@ -24,7 +24,7 @@ export async function GET() {
         //     },
         // });
 
-        for()
+        //for()
 
         console.log("Job completed successfully.");
         return NextResponse.json({ message: "Job executed successfully" });
