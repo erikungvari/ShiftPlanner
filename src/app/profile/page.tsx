@@ -13,8 +13,29 @@ interface User {
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
   const [formData, setFormData] = useState<User>({ name: "", email: "", bio: "" });
   const router = useRouter();
+
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/me", { credentials: "include" });
+        const data = await res.json();
+        setIsLoggedIn(data.isLoggedIn);
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        setIsLoggedIn(false);
+      }
+    };  
+
+    checkAuth();
+  }, []);
+  
+  if(!isLoggedIn){
+    router.push("/login");
+  }
 
   // Fetch user data from API
   useEffect(() => {
