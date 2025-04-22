@@ -15,7 +15,7 @@ export default function CreateCompanyForm() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    const handleChange = (e: { target: { name: any; value: any; }; }) => {
+    const handleChange = (e: { target: { name: string; value: string; }; }) => {
         setForm((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
