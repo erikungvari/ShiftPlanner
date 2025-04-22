@@ -1,0 +1,9 @@
+{
+    "crons": [
+      {
+        "path": "/api/scheduled-task",
+        "schedule": "0 0 * * 1"
+      }
+    ]
+  }
+  

@@ -70,21 +70,21 @@ export default function RegisterPage() {
     <div>
       <Menu/>
       <div className="fixed left-1/3 top-0 flex items-center justify-center w-4/12 min-h-screen bg-gray-100">
-        <form className="bg-white p-6 rounded-xl shadow-lg w-80" onSubmit={handleSubmit}>
+        <form className="bg-white p-6 rounded-xl shadow-lg w-[40rem] space-y-10" onSubmit={handleSubmit}>
           <h2 className="text-xl font-bold mb-4 text-center">Register</h2>
           {error && <p className="text-red-500 my-2">{error}</p>}
           {success && <p className="text-green-500 my-2">{success}</p>}
-          <input name="name" placeholder="Name" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.name} />
-          <input name="email" type="email" placeholder="Email" className="my-2 p-2 border rounded w-full" onChange={handleChange} value={form.email} />
+          <input name="name" placeholder="Name" className="my-2 p-6 border rounded-2xl w-full h-14" onChange={handleChange} value={form.name} />
+          <input name="email" type="email" placeholder="Email" className="my-2 p-6 border rounded-2xl w-full h-14" onChange={handleChange} value={form.email} />
           <div className="relative mb-2">
             <input
               name="password"
               type={showPassword1 ? 'text' : 'password'}
               placeholder="Password"
-              className="p-2 border rounded w-full"
+              className="p-6 border rounded-2xl w-full h-14"
               onChange={handleChange}
             />
-            <button type="button" className="absolute right-2 top-2 text-gray-500" onClick={togglePasswordVisibility1}>
+            <button type="button" className="absolute right-4 text-gray-500 h-14" onClick={togglePasswordVisibility1}>
               {showPassword1 ? '👁️' : '🔒'}
             </button>
           </div>
@@ -93,14 +93,14 @@ export default function RegisterPage() {
               name="passwordConfirm"
               type={showPassword2 ? 'text' : 'password'}
               placeholder="Confirm Password"
-              className="p-2 border rounded w-full"
+              className="p-6 border rounded-2xl w-full h-14"
               onChange={handleChange}
             />
-            <button type="button" className="absolute right-2 top-2 text-gray-500" onClick={togglePasswordVisibility2}>
+            <button type="button" className="absolute right-4 text-gray-500 h-14" onClick={togglePasswordVisibility2}>
               {showPassword2 ? '👁️' : '🔒'}
             </button>
-        </div>          <p className='text-sm leading-10'>Already have an account? <a href='/login' className='text-blue-500'>Log in here!</a></p>
-          <button type="submit" className="w-full bg-zinc-500 text-white my-2 p-2 rounded" disabled={loading}>
+        </div>          <p className='text-md leading-6'>Already have an account? <a href='/login' className='text-blue-500'>Log in here!</a></p>
+          <button type="submit" className="w-full h-14 bg-zinc-500 text-white my-2 p-2 rounded-2xl" disabled={loading}>
             {loading ? 'Registering...' : 'Register'}
           </button>
         </form>
