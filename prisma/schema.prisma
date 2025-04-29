@@ -27,6 +27,8 @@ model Hour {
   day       Int
   week      Int
   date      DateTime
+  company   Company  @relation(fields: [companyId], references: [id])
+  companyId String
   user      User?    @relation(fields: [userId], references: [id])
   userId    String?
   createdAt DateTime @default(now())
@@ -40,5 +42,6 @@ model Company {
   description String
   bossId      String
   createdAt   DateTime @default(now())
-  users       User[]   
+  users       User[]  
+  hours       Hour[] 
 }

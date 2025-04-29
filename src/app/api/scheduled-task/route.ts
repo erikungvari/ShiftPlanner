@@ -3,7 +3,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// Format "04:00 - 05:00"
 function formatHourRange(hour: number): string {
     const pad = (n: number) => String(n).padStart(2, "0");
     const from = `${pad(hour)}:00`;
@@ -13,45 +12,70 @@ function formatHourRange(hour: number): string {
 
 export async function GET() {
     try {
-        console.log("Generating hour rows for 4 weeks...");
-
-        // Clear table
-        await prisma.hour.deleteMany({});
+        console.log("Starting company-specific weekly hour update...");
 
         const now = new Date();
-        now.setMinutes(0, 0, 0); // start at top of current hour
-        now.setHours(0); // start at midnight today
 
-        const newHours = [];
+        // Step 1: Delete past hours
+        await prisma.hour.deleteMany({
+            where: {
+                date: { lt: now },
+            },
+        });
 
-        for (let week = 1; week <= 4; week++) {
-            for (let day = 1; day <= 7; day++) {
+        // Step 2: Shift existing weeks
+        await prisma.hour.updateMany({ where: { week: 2 }, data: { week: 1 } });
+        await prisma.hour.updateMany({ where: { week: 3 }, data: { week: 2 } });
+        await prisma.hour.updateMany({ where: { week: 4 }, data: { week: 3 } });
+
+        // Step 3: Get all companies
+        const companies = await prisma.company.findMany();
+
+        // Step 4: For each company, find their latest Hour date
+        for (const company of companies) {
+            const latestHour = await prisma.hour.findFirst({
+                where: { companyId: company.id },
+                orderBy: { date: "desc" },
+            });
+
+            if (!latestHour) {
+                console.warn(`No existing hour rows found for company ${company.name}`);
+                continue;
+            }
+
+            const startDate = new Date(latestHour.date);
+            startDate.setHours(0, 0, 0, 0);
+            startDate.setDate(startDate.getDate() + 1); // next day after latest
+
+            const newHours = [];
+
+            for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
                 for (let hour = 0; hour < 24; hour++) {
-                    // Calculate actual date
-                    const date = new Date(now);
-                    const daysToAdd = (week - 1) * 7 + (day - 1); // days since today
-                    date.setDate(now.getDate() + daysToAdd);
+                    const date = new Date(startDate);
+                    date.setDate(startDate.getDate() + dayOffset);
                     date.setHours(hour);
 
                     newHours.push({
                         time: formatHourRange(hour),
-                        day,
-                        week,
+                        day: ((date.getDay() + 6) % 7) + 1, // convert JS Sunday=0 to 1–7
+                        week: 4,
                         date,
+                        companyId: company.id,
                     });
                 }
             }
+
+            await prisma.hour.createMany({
+                data: newHours,
+                skipDuplicates: true,
+            });
+
+            console.log(`Created new week 4 hours for company: ${company.name}`);
         }
 
-        await prisma.hour.createMany({
-            data: newHours,
-            skipDuplicates: true,
-        });
-
-        console.log("Hour rows created with dates.");
-        return NextResponse.json({ message: "Hour table populated with actual datetimes." });
+        return NextResponse.json({ message: "Weekly hours updated per company." });
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error updating hour rows:", error);
         return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
     }
 }
