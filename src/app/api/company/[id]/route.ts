@@ -3,10 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-import { NextRequest } from "next/server";
-
 export async function GET(
-  req: NextRequest,
   context: { params: { id: string } }
 ) {
   const companyId = context.params.id;
