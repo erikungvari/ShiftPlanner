@@ -130,7 +130,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* <div className="p-6">
+        <div className="p-6">
           <input
             type="text"
             placeholder="Search users by name..."
@@ -152,7 +152,7 @@ export default function Dashboard() {
               ))}
             </ul>
           )}
-        </div> */}
+        </div>
 
 
 
