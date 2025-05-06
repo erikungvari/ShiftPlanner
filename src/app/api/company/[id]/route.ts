@@ -7,9 +7,9 @@ import { NextRequest } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  const companyId = params.id;
+  const companyId = context.params.id;
 
   if (!companyId) {
     return NextResponse.json({ error: "Company ID is required." }, { status: 400 });
