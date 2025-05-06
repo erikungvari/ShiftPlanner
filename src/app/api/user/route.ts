@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 const SECRET = process.env.JWT_SECRET || "922d966e88425a8e692762c95d1da273f75d707aa1b6204eea069282f8344d7f"; // Store securely
 
-// ✅ GET: Fetch user data
+// GET: Fetch user data
 export async function GET() {
   try {
     const token = (await cookies()).get("auth_token")?.value;
@@ -16,7 +16,7 @@ export async function GET() {
     const decoded = jwt.verify(token, SECRET) as { id: string };
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
-      select: { name: true, email: true, bio: true }, // Select only required fields
+      select: { id:true, name: true, email: true, bio: true, companyId:true }, // Select only required fields
     });
 
     if (!user) return NextResponse.json({ message: "User not found" }, { status: 404 });
@@ -28,7 +28,7 @@ export async function GET() {
   }
 }
 
-// ✅ PUT: Update user data
+// PUT: Update user data
 export async function PUT(req: Request) {
   try {
     const token = (await cookies()).get("auth_token")?.value;
