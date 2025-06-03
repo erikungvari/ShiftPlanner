@@ -11,27 +11,30 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   isAdmin   Boolean?
-  name      String   @unique
+  name      String
   email     String   @unique
   bio       String?
   password  String
   createdAt DateTime @default(now())
+
   companyId String?
-  Company   Company? @relation(fields: [companyId], references: [id])
-  hours     Hour[]   
-}
+  company   Company? @relation("UserCompany", fields: [companyId], references: [id])
+
+  hours     Hour[]}
 
 model Hour {
   id        String   @id @default(uuid())
-  time      String // Format: "4:00 - 5:00"
+  time      String   // Format: "4:00 - 5:00"
   day       Int
   week      Int
   date      DateTime
-  company   Company  @relation(fields: [companyId], references: [id])
-  companyId String
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    String?
   createdAt DateTime @default(now())
+
+  userId    String?
+  user      User?     @relation("HourUser", fields: [userId], references: [id])
+
+  companyId String
+  company   Company   @relation("HourCompany", fields: [companyId], references: [id])
 }
 
 model Company {
@@ -42,6 +45,7 @@ model Company {
   description String
   bossId      String
   createdAt   DateTime @default(now())
-  users       User[]  
-  hours       Hour[] 
+
+  users       User[]   @relation("UserCompany")
+  hours       Hour[]
 }

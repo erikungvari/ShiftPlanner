@@ -85,7 +85,43 @@ export default function Dashboard() {
   const joinCompany = () => router.push('/joinCompany');
   const manageCompany = () => router.push('/manageCompany');
   const openCalendar = () => router.push('/calendar');
-  const generateHours = () => router.push('/generateHours');
+  const generateHours = async () => {
+    try {
+      const res = await fetch(`/api/user`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to generate company hours');
+      }
+
+      if (!company?.id) {
+        throw new Error('Company ID is undefined. Cannot generate company hours.');
+      }
+
+      const initHoursRes = await fetch(`/api/createInitCompanyHours`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ companyId: company.id }),
+      });
+
+      if (!initHoursRes.ok) {
+        const errorDetails = await initHoursRes.json();
+        console.error('Error details:', errorDetails);
+        throw new Error(`Failed to initialize company hours: ${errorDetails.message || 'Unknown error'}`);
+      }
+
+      alert('Company hours generated successfully!');
+    } catch (error) {
+      console.error('Error generating company hours:', error);
+      alert('An error occurred while generating company hours.');
+    }
+  };
 
 
   if (isLoading) return <p>Loading dashboard...</p>;
@@ -130,7 +166,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        <div className="p-6">
+        {/* <div className="p-6">
           <input
             type="text"
             placeholder="Search users by name..."
@@ -152,16 +188,16 @@ export default function Dashboard() {
               ))}
             </ul>
           )}
-        </div>
+        </div> */}
 
 
 
         {/* admin tools */}
         <div className="flex space-x-6 my-20">
-          <button onClick={manageCompany} className="h-[10rem] w-[15rem] bg-blue-400 rounded-3xl text-xl font-semibold shadow-md">
+          <button onClick={manageCompany} className="h-[10rem] w-[15rem] bg-blue-400 rounded-3xl text-xl font-semibold shadow-md hover:shadow-2xl hover:bg-blue-300 transition hover:-translate-y-6">
             Manage Company
           </button>
-          <button onClick={generateHours} className="h-[10rem] w-[15rem] bg-green-400 rounded-3xl text-xl font-semibold shadow-md">
+          <button onClick={generateHours} className="h-[10rem] w-[15rem] bg-green-400 rounded-3xl text-xl font-semibold shadow-md hover:shadow-2xl hover:bg-green-300 transition hover:-translate-y-6">
             Generate Company Hours
           </button>
         </div>
@@ -174,20 +210,21 @@ export default function Dashboard() {
   return (
     <div className="p-10">
       <h1 className="text-3xl font-bold mb-2">Welcome, {user.name}</h1>
-      <p className="text-gray-600 mb-6">Company: {company?.name}</p>
-      <p className="text-gray-600 mb-6">{company?.bossId}, {user.id} </p>
+      <p className="text-lg text-gray-600 mb-16">Company: {company?.name}</p>
 
-      <div className="flex space-x-6">
-        <button onClick={openCalendar} className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 transition">
-          Calendar
-        </button>
-        <button disabled className="bg-gray-300 text-gray-700 px-6 py-3 rounded cursor-not-allowed">
-          Company Chat (Coming Soon)
-        </button>
-        <button disabled className="bg-gray-300 text-gray-700 px-6 py-3 rounded cursor-not-allowed">
-          Events (Coming Soon)
-        </button>
-      </div>
+      <div className="flex space-x-6 my-20">
+          <button onClick={openCalendar} className="h-[20rem] w-[25rem] bg-gray-200 rounded-3xl text-2xl font-semibold shadow-md hover:shadow-2xl hover:bg-gray-300 transition hover:-translate-y-6">
+            Calendar
+          </button>
+          <button disabled className="h-[20rem] w-[25rem] bg-gray-200 rounded-3xl text-gray-600 text-2xl font-semibold shadow-md cursor-not-allowed">
+            Company Chat <br></br>
+            (coming soon...)
+          </button>
+          <button disabled className="h-[20rem] w-[25rem] bg-gray-200 rounded-3xl text-gray-600 text-2xl font-semibold shadow-md cursor-not-allowed">
+            Events <br></br>
+            (coming soon...)
+          </button>
+        </div>
       <Menu />
     </div>
   );
