@@ -84,7 +84,7 @@ export default function Dashboard() {
   const createCompany = () => router.push('/createCompany');
   const joinCompany = () => router.push('/joinCompany');
   const manageCompany = () => router.push('/manageCompany');
-  const openCalendar = () => router.push('/calendar');
+  const openCalendar = () => router.push('dashboard/calendar');
   const generateHours = async () => {
     try {
       const res = await fetch(`/api/user`, {
